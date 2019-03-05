@@ -44,17 +44,33 @@ function generateAddBookmarkHTML(bookmark){
 }
 
 //RENDER FUNCTIONS
+
+//is for displaying main page
 function renderStore(){
-  
+  if (STORE.addingFormVisible) {
+    $('container').html(generateMainPageHTML());
+  } else {
+    $('container').html(generateAddBookmarkHTML());
+  }
 }
 
+//
+  if (STORE.minimumStarRating) {
+    $('container').html()
+}
 
+//displaying expanded html unless item is not clicked
+if (STORE.bookmarkList.list[5]) {
+  $('container').html(generateExpandedPageHTML());
+} else {
+  $('container').html(generateMainPageHTML());
+}
 
 
 
 //EVENT LISTENERS
 function handleExpandedView(){
-  // when user hovers over bookmark
+  // when user clicks on bookmark
 }
 
 function handleAddButton(){
@@ -99,6 +115,7 @@ function main(){
   handleDeleteButtonOne();
   handleDeleteButtonTwo();
   handleCancelButton();
+  renderStore();
 }
 
 $(main);
