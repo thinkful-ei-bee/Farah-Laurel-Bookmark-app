@@ -5,7 +5,10 @@ const STORE = (function(){
   
   const bookmarkList = {
     list: [
-      {id: '', title: '', rating: '', description: '', link: '', expanded: false}
+      {id: '1836578956', title: 'Google', rating: 4, description: 'The best search engine ever.', link:'http://google.com', expanded: false},
+      {id: '3777046442', title: 'Netflix', rating: 5, description: 'TV shows and movies', link:'http://netflix.com', expanded: false},
+
+      {id: '', title: '', rating: 0, description: '', link: '', expanded: false}
     ],
     addingFormVisible: false, 
     minimumStarRating: 1, 

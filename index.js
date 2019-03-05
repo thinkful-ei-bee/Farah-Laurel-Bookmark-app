@@ -1,16 +1,55 @@
 'use strict';
 /* global $, STORE */
 
-//RENDER FUNCTIONS
-function renderStore(){
-
-}
-
 
 //MARK UP 
-function generatePageHTML(){
-
+function generateMainPageHTML(bookmark){
+  return `
+    <div class="bookmark-box">
+        <p>${bookmark.title}</p> 
+        <p>${bookmark.rating}</p>
+    </div>`;
 }
+
+function generateExpandedPageHTML(bookmark){
+  return `<div class="bookmark-box">
+        <p>${bookmark.title}</p> 
+        <p>${bookmark.rating}</p>
+    </div>
+
+    <div class="expanded-bookmark">
+        <p>${bookmark.title}</p>
+        <p>${bookmark.description} </p>
+        <p>${bookmark.link}</p>
+        <p>${bookmark.rating}</p>
+        <button type="button">Edit</button>
+        <button type="button">Delete</button>
+    </div>`;
+}
+
+function generateAddBookmarkHTML(bookmark){
+  return `
+  <div class="bookmark-box">
+        <p>${bookmark.title}</p> 
+        <p>${bookmark.rating}</p>
+    </div>
+  
+    <form>
+      <p>Add Boommark</p>
+      <input type="add-title" class="js-add-title" placeholder="Title">
+      <input type="add-link" class="js-add-link" placeholder="Link">
+      <input type="add-description" class="js-add-description" placeholder="Description">
+      <button type="submit">Add Bookmark</button>
+    </form>`;
+}
+
+//RENDER FUNCTIONS
+function renderStore(){
+  
+}
+
+
+
 
 
 //EVENT LISTENERS
