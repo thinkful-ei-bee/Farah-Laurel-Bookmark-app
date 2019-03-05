@@ -5,13 +5,11 @@ const STORE = (function(){
   
   const bookmarkList = {
     list: [
-      {id: cuid(), title: '', rating: '', description: '', link: ''}
+      {id: '', title: '', rating: '', description: '', link: '', expanded: false}
     ],
-    added: false, 
-    sorted: false, 
-    currentView: true,
-    edited: false,
-    deletePrompt: false,
+    addingFormVisible: false, 
+    minimumStarRating: 1, 
+    error: null
   };
 
   return {

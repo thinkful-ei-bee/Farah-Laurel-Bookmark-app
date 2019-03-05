@@ -16,6 +16,43 @@
     <header>
     <h1>My Bookmarks</h1> 
     </header>
+
+    <div class="filter-menu">
+        <select id="dropdown" name="rating">
+            <option disabled value></option>Filter by rating:</option>
+            <option value=>5 stars</option>
+            <option value=>4 stars & above</option>
+            <option value=>3 stars & above</option>
+            <option value=>2 stars & above</option>
+            <option value=>1 star & above</option>
+        </select>
+    </div>
+
+    <div class="bookmark-box">
+        <p>Bookmark title</p> 
+        <p>rating</p>
+    </div>
+
+    <div class="add-bookmark">
+        <button type="button">+</button>
+        <form>
+            <p>Add Boommark</p>
+            <input type="add-title" class="js-add-title" placeholder="Title">
+            <input type="add-link" class="js-add-link" placeholder="Link">
+            <input type="add-description" class="js-add-description" placeholder="Description">
+            <button type="submit">Add Bookmark</button>
+            
+        </form>
+    </div>
+
+    <div class="expanded-bookmark">
+        <p>Bookmark title</p>
+        <p>Description: </p>
+        <p>rating</p>
+        <button type="button">Edit</button>
+        <button type="button">Delete</button>
+    </div>
+
     <form id="js-bookmark-form">
         <div class="bookmark1">
             <input type="" id="" class=""> 
