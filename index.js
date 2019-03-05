@@ -27,13 +27,8 @@ function generateExpandedPageHTML(bookmark){
     </div>`;
 }
 
-function generateAddBookmarkHTML(bookmark){
+function generateAddBookmarkHTML(){
   return `
-  <div class="bookmark-box">
-        <p>${bookmark.title}</p> 
-        <p>${bookmark.rating}</p>
-    </div>
-  
     <form>
       <p>Add Boommark</p>
       <input type="add-title" class="js-add-title" placeholder="Title">
@@ -47,24 +42,25 @@ function generateAddBookmarkHTML(bookmark){
 
 //is for displaying main page
 function renderStore(){
-  if (STORE.addingFormVisible) {
-    $('container').html(generateMainPageHTML());
+  
+  if (!STORE.addingFormVisible) {
+    $('.add-bookmark').html('<button>+</button>');
   } else {
-    $('container').html(generateAddBookmarkHTML());
+    $('.add-bookmark').html(generateAddBookmarkHTML());
   }
 }
 
 //
-  if (STORE.minimumStarRating) {
-    $('container').html()
-}
+//   if (STORE.minimumStarRating) {
+//     $('container').html()
+// }
 
 //displaying expanded html unless item is not clicked
-if (STORE.bookmarkList.list[5]) {
-  $('container').html(generateExpandedPageHTML());
-} else {
-  $('container').html(generateMainPageHTML());
-}
+// if (STORE.bookmarkList.list[5]) {
+//   $('container').html(generateExpandedPageHTML());
+// } else {
+//   $('container').html(generateMainPageHTML());
+// }
 
 
 

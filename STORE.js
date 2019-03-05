@@ -16,6 +16,6 @@ const STORE = (function(){
   };
 
   return {
-    bookmarkList: bookmarkList
+    ...bookmarkList //take all the properties from bookmark list and add them; destructuring 
   };
 }());
