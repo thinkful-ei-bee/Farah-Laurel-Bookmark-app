@@ -9,10 +9,10 @@ const api = (function () {
     return fetch(`${BASE_URL}` + '/bookmarks');
   };
         
-  const createBookmarks = function(title, description, url, rating) {
+  const createBookmarks = function(title, desc, url, rating) {
     const newBookmark = JSON.stringify({
       title: title,
-      description: description,
+      desc: desc,
       url: url,
       rating: rating
     });  

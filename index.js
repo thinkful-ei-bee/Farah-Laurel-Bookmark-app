@@ -8,21 +8,20 @@ const BookmarkList = (function () {
   function generateMainPageHTML(){ 
     const bookmarks = STORE.list.map(bookmark => 
       ` <div class="js-bookmark-main">
-      <p>${bookmark.title}</p>
-      <p>${bookmark.rating}</p> 
-      </div>
-
-      <div class="js-bookmark-details">
-      <p>${bookmark.title}</p>
-      <p>${bookmark.rating}</p>
-      <p>${bookmark.description}</p>
-      <p>${bookmark.link}</p>
-
-        <div class="js-detail-buttons">
-          <button id="js-edit-button" type="button">Edit</button>
-          <button id="js-delete-button" type="button">Delete</button>
+        <p>${bookmark.title}</p>
+        <p>${bookmark.rating}</p> 
         </div>
-      </div> `);
+
+        <div class="js-bookmark-details">
+        <p>${bookmark.title}</p>
+        <p>${bookmark.rating}</p>
+        <p>${bookmark.description}</p>
+        <p>${bookmark.link}</p>
+
+          <div class="js-detail-buttons">
+            <button id="js-delete-button" type="button">Delete</button>
+          </div>
+        </div> `);
     return bookmarks;
   }
 
@@ -30,19 +29,19 @@ const BookmarkList = (function () {
   //   const bookmarks = STORE.list.map(bookmark => 
   //     `  `);
   //   return bookmarks;
- 
+  
   // }
 
   function generateAddBookmarkHTML(){
     return `
-    <form>
-      <p>Add Boommark</p>
-      <input type="add-title" class="js-add-title" placeholder="Title">
-      <input type="add-link" class="js-add-link" placeholder="Link">
-      <input type="add-description" class="js-add-description" placeholder="Description">
-      
-      <button type="submit" id="js-add-bookmark-button">Add Bookmark</button>
-    </form>`;
+      <form>
+        <p>Add Boommark</p>
+        <input type="add-title" class="js-add-title" placeholder="Title">
+        <input type="add-link" class="js-add-link" placeholder="Link">
+        <input type="add-description" class="js-add-description" placeholder="Description">
+        
+        <button type="submit" id="js-add-bookmark-button">Add Bookmark</button>
+      </form>`;
   }
 
   //================
@@ -59,10 +58,10 @@ const BookmarkList = (function () {
       $('.add-bookmark').html(generateAddBookmarkHTML());
     }
 
-  // if (!STORE.list[5]) {
-  //   console.log(STORE.list[0]);
-  //   $('#expanded-bookmark').html(generateExpandedPageHTML());
-  // }
+    // if (!STORE.list[5]) {
+    //   console.log(STORE.list[0]);
+    //   $('#expanded-bookmark').html(generateExpandedPageHTML());
+    // }
   }
 
   //   if (STORE.minimumStarRating) {
@@ -82,17 +81,16 @@ const BookmarkList = (function () {
   //EVENT LISTENERS
   //===============
   function handleExpandedView(){
-  // when user clicks on bookmark
+    // when user clicks on bookmark
     $('#bookmarks-list').on('click', '.js-bookmark-main', event => {
       event.preventDefault();
       console.log('Bookmark click worked!');
       $('.js-bookmark-details').toggle();
-    
     });
   }
 
   function handleAddButton(){
-  // when user clicks the plus sign to add bookmark
+    // when user clicks the plus sign to add bookmark
     $('.add-bookmark').on('click', '#js-plus-button', event => {
       event.preventDefault();
       console.log('add button clicked!');
@@ -102,27 +100,31 @@ const BookmarkList = (function () {
   }
 
   function handleAddBookmarkSubmit(){
-  // user confirms adding bookmark after adding details
+    // user confirms adding bookmark after adding details
     $('.add-bookmark').on('click', '#js-add-bookmark-button', event => {
       event.preventDefault();
       console.log('Add Bookmark button clicked!');
 
-      // const newBookmarkTitle = $('.js-add-title').val();
-      // $('.js-add-title').val('');
-      // const newBookMarkDescription = $('.js-add-description').val();
-      // $('.js-add-description').val('');
-      // const newBookmarLink = $('.js-add-link').val();
-      // $('.js-add-link').val('');
-      // //const newBookMarkRating =
+      const newBookmarkTitle = $('.js-add-title').val();
+      $('.js-add-title').val('');
+      const newBookMarkDescription = $('.js-add-description').val();
+      $('.js-add-description').val('');
+      const newBookmarLink = $('.js-add-link').val();
+      $('.js-add-link').val('');
+      //const newBookMarkRating =
 
-      // api.createBookmarks(newBookmarkTitle, newBookMarkDescription, newBookmarLink)
-      //   .then((newTitle, newDescription, newLink) => {
-      //     STORE.list.addBookmark(newTitle, newDescription, newLink);
+      api.createBookmarks(newBookmarkTitle, newBookMarkDescription, newBookmarLink)
+        .then(res => res.json())
+        .then((data) =>  {
+          console.log(data);
+          STORE.addBookmark(data);
           STORE.addingFormVisible = !STORE.addingFormVisible;
           renderStore();
         });
-    //});
+    });
   }
+
+
 
   // function handleEditButton(){
   //   // user clicks on edit button
@@ -133,15 +135,15 @@ const BookmarkList = (function () {
   // }
 
   function handleSubmitButton(){
-  // submits edit
+    // submits edit
   }
 
   function handleGoBackButton(){
-  // cancel edit action
+    // cancel edit action
   }
 
   function handleDeleteButtonOne(){
-  // user clicks on delete button
+    // user clicks on delete button
     $('#bookmarks-list').on('click', '#js-delete-button', event => {
       event.preventDefault();
       console.log('delete button clicked');
@@ -149,22 +151,29 @@ const BookmarkList = (function () {
   }
 
   function handleCancelButton(){
-  // cancel delete action
+    // cancel delete action
   }
-
+ 
+  
   function bindEventListeners() {
     handleExpandedView();
     handleAddButton();
     handleAddBookmarkSubmit();
     handleDeleteButtonOne();
     handleCancelButton();
-
+    renderStore();
   }
 
-  
   return {
     renderStore: renderStore,
     bindEventListeners: bindEventListeners
   };
 
+
 }());
+
+$(document).ready(function() {
+  BookmarkList.bindEventListeners();
+  BookmarkList.renderStore();
+});
+
