@@ -1,3 +1,7 @@
 .js-bookmark-details{
     display: none;
 }
+
+li {
+    list-style: none;
+}

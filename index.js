@@ -7,21 +7,21 @@
 const BookmarkList = (function () {
   function generateMainPageHTML(){ 
     const bookmarks = STORE.list.map(bookmark => 
-      ` <div class="js-bookmark-main">
+      `<ul> 
+      <li class="js-bookmark-element" data-id="${bookmark.id}">
         <p>${bookmark.title}</p>
         <p>${bookmark.rating}</p> 
-        </div>
+        
 
         <div class="js-bookmark-details">
-        <p>${bookmark.title}</p>
-        <p>${bookmark.rating}</p>
-        <p>${bookmark.description}</p>
-        <p>${bookmark.link}</p>
+        <p>${bookmark.desc}</p>
+        <p>${bookmark.url}</p>
 
           <div class="js-detail-buttons">
-            <button id="js-delete-button" type="button">Delete</button>
+            <button class="js-delete-button" type="button">Delete</button>
           </div>
-        </div> `);
+          </li>
+          </ul> `);
     return bookmarks;
   }
 
@@ -42,6 +42,12 @@ const BookmarkList = (function () {
         
         <button type="submit" id="js-add-bookmark-button">Add Bookmark</button>
       </form>`;
+  }
+
+  function getBookmarkFromElement(bookmark){
+    $(bookmark)
+      .closest('.js-bookmark-element')
+      .data('bookmarkId');
   }
 
   //================
@@ -75,17 +81,16 @@ const BookmarkList = (function () {
   //   $('container').html(generateMainPageHTML());
   // }
 
-
-
   //===============
   //EVENT LISTENERS
   //===============
   function handleExpandedView(){
     // when user clicks on bookmark
-    $('#bookmarks-list').on('click', '.js-bookmark-main', event => {
+    $('#bookmarks-list').on('click', '.js-bookmark-element', function (event) {
       event.preventDefault();
+
       console.log('Bookmark click worked!');
-      $('.js-bookmark-details').toggle();
+      $('.js-bookmark-details').toggle().attr('data-id');
     });
   }
 
@@ -124,15 +129,22 @@ const BookmarkList = (function () {
     });
   }
 
+  function handleDeleteButtonOne(){
+    // user clicks on delete button
+    $('#bookmarks-list').on('click', '.js-delete-button', function(event) {
+      event.preventDefault();
+      console.log('delete button clicked');
+      const bookmarkId = ($(this).closest('.js-bookmark-element').attr('data-id'));
 
+      api.deleteBookmarks(bookmarkId)
+        .then(res => res.json())
+        .then(() => {
+          STORE.deleteBookmark(bookmarkId);
+          renderStore();
+        });
+    });
+  }
 
-  // function handleEditButton(){
-  //   // user clicks on edit button
-  //   $('.js-detail-buttons').on('click', '#js-edit-button', event => {
-  //     event.preventDefault();
-  //     console.log('edit button clicked');
-  //   });
-  // }
 
   function handleSubmitButton(){
     // submits edit
@@ -142,17 +154,12 @@ const BookmarkList = (function () {
     // cancel edit action
   }
 
-  function handleDeleteButtonOne(){
-    // user clicks on delete button
-    $('#bookmarks-list').on('click', '#js-delete-button', event => {
-      event.preventDefault();
-      console.log('delete button clicked');
-    });
-  }
-
+  
   function handleCancelButton(){
     // cancel delete action
   }
+
+ 
  
   
   function bindEventListeners() {
@@ -166,14 +173,25 @@ const BookmarkList = (function () {
 
   return {
     renderStore: renderStore,
-    bindEventListeners: bindEventListeners
+    bindEventListeners: bindEventListeners,
+    //addDataToStoreAndRender: addDataToStoreAndRender
   };
 
 
 }());
 
+
+function addDataToStoreAndRender(list){
+  list.forEach((listItem) => STORE.addBookmark(listItem));
+  BookmarkList.renderStore();
+}
+
+
 $(document).ready(function() {
   BookmarkList.bindEventListeners();
   BookmarkList.renderStore();
+  api.getBookmarks()
+    .then(res => res.json())
+    .then(data => addDataToStoreAndRender(data));
 });
 
