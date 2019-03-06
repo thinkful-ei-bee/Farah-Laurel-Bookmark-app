@@ -39,7 +39,14 @@ const BookmarkList = (function () {
         <input type="add-title" class="js-add-title" placeholder="Title">
         <input type="add-link" class="js-add-link" placeholder="Link">
         <input type="add-description" class="js-add-description" placeholder="Description">
-        
+        <br>
+        <div class="star-buttons">
+        <input type="radio" name="radio"> 1 Star<br>
+        <input type="radio" name="radio"> 2 Star<br>
+        <input type="radio" name="radio"> 3 Star<br>
+        <input type="radio" name="radio"> 4 Star<br>
+        <input type="radio" name="radio"> 5 Star<br>
+        </div>
         <button type="submit" id="js-add-bookmark-button">Add Bookmark</button>
       </form>`;
   }
@@ -146,13 +153,13 @@ const BookmarkList = (function () {
   }
 
 
-  function handleSubmitButton(){
-    // submits edit
-  }
+  // function handleSubmitButton(){
+  //   // submits edit
+  // }
 
-  function handleGoBackButton(){
-    // cancel edit action
-  }
+  // function handleGoBackButton(){
+  //   // cancel edit action
+  // }
 
   
   function handleCancelButton(){

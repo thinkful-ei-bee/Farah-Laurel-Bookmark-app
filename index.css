@@ -5,3 +5,9 @@
 li {
     list-style: none;
 }
+input[type="radio"] {
+    display:none;
+}
+input[type="radio"]::before {
+    content: "\2606";
+}
