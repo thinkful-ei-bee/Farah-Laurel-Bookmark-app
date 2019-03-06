@@ -11,7 +11,10 @@ const STORE = (function(){
     ],
     addingFormVisible: false, 
     minimumStarRating: 1, 
-    error: null
+    error: null,
+    addBookmark: function(bookmark) {
+      this.bookmarkList.list.push(bookmark);
+    }
   };
 
   return {
