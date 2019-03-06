@@ -1,28 +1,28 @@
 'use strict';
-/* global $, STORE */
+/* global $, STORE, BookmarkList */
 
 
 const api = (function () {
-  const BASE_URL = "https://thinkful-list-api.herokuapp.com/farah-laurel";
+  const BASE_URL = 'https://thinkful-list-api.herokuapp.com/farah-laurel';
 
   const getBookmarks = function() {
-    return fetch(`${BASE_URL}` + "/bookmarks")
+    return fetch(`${BASE_URL}` + '/bookmarks');
   };
         
-  const createBookmarks = function(bookmarkName) {
+  const createBookmarks = function(title, description, url, rating) {
     const newBookmark = JSON.stringify({
-      title: tile,
+      title: title,
       description: description,
       url: url,
       rating: rating
     });  
     
     const option = {
-        method: 'POST',
-        headers: new Headers({ 'Content-Type': 'application/json' }),
-        body: newBookmark
-      };
-    return fetch(`${BASE_URL}` + "/bookmarks", option);
+      method: 'POST',
+      headers: new Headers({ 'Content-Type': 'application/json' }),
+      body: newBookmark
+    };
+    return fetch(`${BASE_URL}` + '/bookmarks', option);
   };
         
   const deleteBookmarks = function(id) {

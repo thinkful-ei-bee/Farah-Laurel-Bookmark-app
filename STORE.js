@@ -1,5 +1,5 @@
 'use strict';
-/* global $, cuid */
+/* global $, cuid, BookmarkList */
 
 const STORE = (function(){
   const bookmarkList = {
@@ -13,7 +13,13 @@ const STORE = (function(){
     minimumStarRating: 1, 
     error: null,
     addBookmark: function(bookmark) {
-      this.bookmarkList.list.push(bookmark);
+      this.list.push(bookmark);
+      BookmarkList.renderStore();
+    },
+    deleteBookmark: function(id){
+      const deleteBookmarkIndex = this.list.findIndex(item => item.id === id);
+      STORE.list.splice(deleteBookmarkIndex, 1);
+      BookmarkList.renderStore();
     }
   };
 
