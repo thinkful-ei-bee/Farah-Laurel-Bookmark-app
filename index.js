@@ -1,30 +1,32 @@
 'use strict';
 /* global $, STORE */
 
+//=================
+//MARK UP FUNCTIONS
+//=================
+function generateMainPageHTML(){ 
+  const bookmarks = STORE.list.map(bookmark => 
+    ` <p>${bookmark.title}</p>
+      <p>${bookmark.rating}</p> `);
+  return bookmarks;
 
-//MARK UP 
-function generateMainPageHTML(bookmark){
-  return `
+  /*for (let i = 0; i < STORE.list.length; i++){
+    return  `
     <div class="bookmark-box">
-        <p>${bookmark.title}</p> 
-        <p>${bookmark.rating}</p>
+        <p>${STORE.list[i].title}</p> 
+        <p>${STORE.list[i].rating}</p> 
     </div>`;
+  } */
 }
 
 function generateExpandedPageHTML(bookmark){
-  return `<div class="bookmark-box">
-        <p>${bookmark.title}</p> 
-        <p>${bookmark.rating}</p>
-    </div>
-
-    <div class="expanded-bookmark">
-        <p>${bookmark.title}</p>
-        <p>${bookmark.description} </p>
-        <p>${bookmark.link}</p>
-        <p>${bookmark.rating}</p>
+ return ` 
+        <p>${STORE.list[0]}</p>
+        <p>${STORE.list.rating} </p>
+        <p>${STORE.list.description}</p>
+        <p>${STORE.list.link}</p>
         <button type="button">Edit</button>
-        <button type="button">Delete</button>
-    </div>`;
+        <button type="button">Delete</button> `;
 }
 
 function generateAddBookmarkHTML(){
@@ -38,16 +40,25 @@ function generateAddBookmarkHTML(){
     </form>`;
 }
 
+//================
 //RENDER FUNCTIONS
-
+//================
 //is for displaying main page
 function renderStore(){
-  
+  $('#bookmarks-list').html(generateMainPageHTML());
+
+  //if Add Bookmark Form is false, then have '+' button, else show the form
   if (!STORE.addingFormVisible) {
     $('.add-bookmark').html('<button>+</button>');
   } else {
     $('.add-bookmark').html(generateAddBookmarkHTML());
   }
+
+  // if (!STORE.list[5]) {
+  //   console.log(STORE.list[0]);
+  //   $('#expanded-bookmark').html(generateExpandedPageHTML());
+  // }
+
 }
 
 //
@@ -55,7 +66,7 @@ function renderStore(){
 //     $('container').html()
 // }
 
-//displaying expanded html unless item is not clicked
+// displaying expanded html unless item is not clicked
 // if (STORE.bookmarkList.list[5]) {
 //   $('container').html(generateExpandedPageHTML());
 // } else {
@@ -63,18 +74,29 @@ function renderStore(){
 // }
 
 
-
+//===============
 //EVENT LISTENERS
+//===============
 function handleExpandedView(){
   // when user clicks on bookmark
 }
 
 function handleAddButton(){
   // when user clicks the plus sign to add bookmark
+  $('.add-bookmark').on('click', event => {
+    event.preventDefault();
+    console.log('add button clicked!');
+    STORE.addingFormVisible = !STORE.addingFormVisible;
+    renderStore();
+  });
 }
 
 function handleAddBookmarkButton(){
   // user confirms adding bookmark after adding details
+  $('.add-bookmark').on('submit', event => {
+    event.preventDefault();
+    console.log('Add Bookmark button clicked!');
+  });
 }
 
 function handleEditButton(){
@@ -112,6 +134,7 @@ function main(){
   handleDeleteButtonTwo();
   handleCancelButton();
   renderStore();
+  
 }
 
 $(main);
