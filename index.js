@@ -6,28 +6,31 @@
 //=================
 function generateMainPageHTML(){ 
   const bookmarks = STORE.list.map(bookmark => 
-    ` <p>${bookmark.title}</p>
-      <p>${bookmark.rating}</p> `);
+    ` <div class="js-bookmark-main">
+      <p>${bookmark.title}</p>
+      <p>${bookmark.rating}</p> 
+      </div>
+
+      <div class="js-bookmark-details">
+      <p>${bookmark.title}</p>
+      <p>${bookmark.rating}</p>
+      <p>${bookmark.description}</p>
+      <p>${bookmark.link}</p>
+
+        <div class="js-detail-buttons">
+          <button id="js-edit-button" type="button">Edit</button>
+          <button id="js-delete-button" type="button">Delete</button>
+        </div>
+      </div> `);
   return bookmarks;
-
-  /*for (let i = 0; i < STORE.list.length; i++){
-    return  `
-    <div class="bookmark-box">
-        <p>${STORE.list[i].title}</p> 
-        <p>${STORE.list[i].rating}</p> 
-    </div>`;
-  } */
 }
 
-function generateExpandedPageHTML(bookmark){
- return ` 
-        <p>${STORE.list[0]}</p>
-        <p>${STORE.list.rating} </p>
-        <p>${STORE.list.description}</p>
-        <p>${STORE.list.link}</p>
-        <button type="button">Edit</button>
-        <button type="button">Delete</button> `;
-}
+// function generateExpandedPageHTML(){
+//   const bookmarks = STORE.list.map(bookmark => 
+//     `  `);
+//   return bookmarks;
+ 
+// }
 
 function generateAddBookmarkHTML(){
   return `
@@ -55,14 +58,12 @@ function renderStore(){
     $('.add-bookmark').html(generateAddBookmarkHTML());
   }
 
-  if (!STORE.list[5]) {
-    console.log(STORE.list[0]);
-    $('#expanded-bookmark').html(generateExpandedPageHTML());
-  }
-
+  // if (!STORE.list[5]) {
+  //   console.log(STORE.list[0]);
+  //   $('#expanded-bookmark').html(generateExpandedPageHTML());
+  // }
 }
 
-//
 //   if (STORE.minimumStarRating) {
 //     $('container').html()
 // }
@@ -75,11 +76,18 @@ function renderStore(){
 // }
 
 
+
 //===============
 //EVENT LISTENERS
 //===============
 function handleExpandedView(){
   // when user clicks on bookmark
+  $('#bookmarks-list').on('click', '.js-bookmark-main', event => {
+    event.preventDefault();
+    console.log('Bookmark click worked!');
+    $('.js-bookmark-details').toggle();
+    
+  });
 }
 
 function handleAddButton(){
@@ -97,12 +105,18 @@ function handleAddBookmarkButton(){
   $('.add-bookmark').on('click', '#js-add-bookmark-button', event => {
     event.preventDefault();
     console.log('Add Bookmark button clicked!');
+    STORE.addingFormVisible = !STORE.addingFormVisible;
+    renderStore();
   });
 }
 
-function handleEditButton(){
-  // user clicks on edit button
-}
+// function handleEditButton(){
+//   // user clicks on edit button
+//   $('.js-detail-buttons').on('click', '#js-edit-button', event => {
+//     event.preventDefault();
+//     console.log('edit button clicked');
+//   });
+// }
 
 function handleSubmitButton(){
   // submits edit
@@ -114,6 +128,10 @@ function handleGoBackButton(){
 
 function handleDeleteButtonOne(){
   // user clicks on delete button
+  $('#bookmarks-list').on('click', '#js-delete-button', event => {
+    event.preventDefault();
+    console.log('delete button clicked');
+  });
 }
 
 function handleDeleteButtonTwo(){
@@ -129,7 +147,7 @@ function main(){
   handleExpandedView();
   handleAddButton();
   handleAddBookmarkButton();
-  handleEditButton();
+  //handleEditButton();
   handleGoBackButton();
   handleDeleteButtonOne();
   handleDeleteButtonTwo();
