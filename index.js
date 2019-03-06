@@ -36,7 +36,8 @@ function generateAddBookmarkHTML(){
       <input type="add-title" class="js-add-title" placeholder="Title">
       <input type="add-link" class="js-add-link" placeholder="Link">
       <input type="add-description" class="js-add-description" placeholder="Description">
-      <button type="submit">Add Bookmark</button>
+      
+      <button type="submit" id="js-add-bookmark-button">Add Bookmark</button>
     </form>`;
 }
 
@@ -49,15 +50,15 @@ function renderStore(){
 
   //if Add Bookmark Form is false, then have '+' button, else show the form
   if (!STORE.addingFormVisible) {
-    $('.add-bookmark').html('<button>+</button>');
+    $('.add-bookmark').html('<button type="submit" id="js-plus-button">+</button>');
   } else {
     $('.add-bookmark').html(generateAddBookmarkHTML());
   }
 
-  // if (!STORE.list[5]) {
-  //   console.log(STORE.list[0]);
-  //   $('#expanded-bookmark').html(generateExpandedPageHTML());
-  // }
+  if (!STORE.list[5]) {
+    console.log(STORE.list[0]);
+    $('#expanded-bookmark').html(generateExpandedPageHTML());
+  }
 
 }
 
@@ -83,7 +84,7 @@ function handleExpandedView(){
 
 function handleAddButton(){
   // when user clicks the plus sign to add bookmark
-  $('.add-bookmark').on('click', event => {
+  $('.add-bookmark').on('click', '#js-plus-button', event => {
     event.preventDefault();
     console.log('add button clicked!');
     STORE.addingFormVisible = !STORE.addingFormVisible;
@@ -93,7 +94,7 @@ function handleAddButton(){
 
 function handleAddBookmarkButton(){
   // user confirms adding bookmark after adding details
-  $('.add-bookmark').on('submit', event => {
+  $('.add-bookmark').on('click', '#js-add-bookmark-button', event => {
     event.preventDefault();
     console.log('Add Bookmark button clicked!');
   });
