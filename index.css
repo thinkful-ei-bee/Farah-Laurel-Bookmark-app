@@ -3,30 +3,87 @@
     flex-direction: column;
 }
 
+body{
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+  padding-left: 20px;
+}
+
+.filter-menu{
+  padding-left: 20px;
+}
+
+
 .js-bookmark-details{
     display: none;
 }
 
-li {
+li{
     list-style: none;
 }
-input[type="radio"] {
-  visibility: hidden;
- 
-}
-.star-buttons::before {
-    content: "\2606";
+
+li p {
+  margin-left: 10px;
 }
 
-input[type="radio"]:hover {
-    transform: scale(1.5) perspective(1px);
-} 
+#bookmarks-list p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#bookmarks-list .js-bookmark-element{
+  margin-top: 10px;
+  border: 1px solid lightgray;
+  width: 500px;
+}
+
+ul{
+  padding-left: 20px;
+}
+
+label {
+  color: grey;
+}
+
+label:hover {
+  cursor: pointer; 
+  color: black;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"]:checked + span {
+  color: black;
+}
 
 .error-message {
     color: red;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 #error-button {
     margin-left: 15px;
+}
+
+#js-plus-button{
+  font-size: 25px;
+  border: none;
+  background: none;
+  padding-left: 20px;
+}
+
+#js-plus-button:hover{
+  transform: scale(1.1);
+}
+
+.add-bookmark {
+  padding-left: 20px;
+}
+
+.star-buttons button{
+  cursor: pointer;
 }

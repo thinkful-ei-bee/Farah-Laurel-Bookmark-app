@@ -10,7 +10,7 @@ const BookmarkList = (function () {
       `<ul> 
       <li class="js-bookmark-element" data-id="${bookmark.id}">
         <p>${bookmark.title}</p>
-        <p>${bookmark.rating}</p> 
+        <p>${bookmark.rating}/5</p> 
         
 
         <div class="js-bookmark-details" data-id="${bookmark.id}">
@@ -31,14 +31,17 @@ const BookmarkList = (function () {
         <p>Add Boommark</p>
         <input type="add-title" class="js-add-title" placeholder="Title" required>
         <input type="add-link" class="js-add-link" placeholder="Link" required>
-        <input type="add-description" class="js-add-description" placeholder="Description" required>
+        <input type="add-description" class="js-add-description" placeholder="Description">
         <br>
+      
+        <div class="star-buttons">
+        <label><input class="star-buttons" type="radio" name="radio" value="1"><span> ☆ </span><br></label>
+        <label><input class="star-buttons" type="radio" name="radio" value="2"><span> ☆ ☆</span><br></label>
+        <label><input class="star-buttons" type="radio" name="radio" value="3"><span> ☆ ☆ ☆</span><br></label>
+        <label><input class="star-buttons" type="radio" name="radio" value="4"><span> ☆ ☆ ☆ ☆</span><br></label>
+        <label><input class="star-buttons" type="radio" name="radio" value="5"><span> ☆ ☆ ☆ ☆ ☆</span><br></label>
+        </div>
         
-        <label><input class="star-buttons" type="radio" name="radio" value="1"> &#9733<br></label>
-        <label><input class="star-buttons" type="radio" name="radio" value="2"> &#9733 &#9733<br></label>
-        <label><input class="star-buttons" type="radio" name="radio" value="3"> &#9733 &#9733 &#9733<br></label>
-        <label><input class="star-buttons" type="radio" name="radio" value="4"> &#9733 &#9733 &#9733 &#9733<br></label>
-        <label><input class="star-buttons" type="radio" name="radio" value="5"> &#9733 &#9733 &#9733 &#9733 &#9733<br></label>
         
         <button type="submit" id="js-add-bookmark-button">Add Bookmark</button>
         <button type="submit" id="js-cancel-bookmark-button">Cancel</button>
@@ -55,6 +58,11 @@ const BookmarkList = (function () {
     // if there is an error message, remove when page renders 
     $('.error-message').empty();
 
+    // Filter
+    let filterBookmarks = STORE.list.filter(bookmark => bookmark.rating >= STORE.minimumRating);
+    let filteredBookmarks = generateMainPageHTML(filterBookmarks);
+    $('#bookmarks-list').html(filteredBookmarks);
+
     if(STORE.error){
       $('.error-message').html(`${STORE.error}<button type="button" id="error-button"> Clear error message</button>`);
     }
@@ -70,10 +78,6 @@ const BookmarkList = (function () {
     }
   }
 
-  function addErrorToStoreAndRender(error){
-    STORE.error = error;
-    BookmarkList.renderStore();
-  }
   //===============
   //EVENT LISTENERS
   //===============
@@ -83,8 +87,7 @@ const BookmarkList = (function () {
 
       console.log('dropdown menu option clicked!');
       const value = event.currentTarget.value;
-     
-      const bookmarks = STORE.list.filter(bookmark => bookmark.rating >= value);
+      STORE.minimumRating = value.val();
       renderStore();
     });
   }
@@ -126,7 +129,7 @@ const BookmarkList = (function () {
       const newBookMarkRatingValue = $('.star-buttons:checked').val();
 
       api.createBookmarks(newBookmarkTitle, newBookMarkDescription, newBookmarLink, newBookMarkRatingValue)
-        .then(res => res.json())
+        //.then(res => res.json())
         .then((data) =>  {
           STORE.addBookmark(data);
           STORE.addingFormVisible = !STORE.addingFormVisible;
@@ -164,6 +167,11 @@ const BookmarkList = (function () {
     });
   }
 
+  function addErrorToStoreAndRender(error){
+    STORE.error = error;
+    BookmarkList.renderStore();
+  }
+
   function handleClearError(){
     $('.error-message').on('click', '#error-button', event => {
       console.log('clear button clicked');
@@ -191,21 +199,4 @@ const BookmarkList = (function () {
 }());
 
 
-// function addDataToStoreAndRender(list){
-//   list.forEach((listItem) => STORE.addBookmark(listItem));
-//   BookmarkList.renderStore();
-// }
-
-// function addErrorToStoreAndRender(error){
-//   STORE.error = error;
-//   BookmarkList.renderStore();
-// }
-
-// $(document).ready(function() {
-//   BookmarkList.bindEventListeners();
-//   BookmarkList.renderStore();
-//   api.getBookmarks()
-//     .then(data => addDataToStoreAndRender(data))
-//     .catch(err => STORE.addErrorToStoreAndRender(err.message));
-// });
 

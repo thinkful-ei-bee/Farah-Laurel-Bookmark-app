@@ -7,7 +7,7 @@ const STORE = (function(){
       //{id, title, rating: 0, description, link, expanded: false}
     ],
     addingFormVisible: false, 
-    minimumStarRating: 1, 
+    minimumRating: 1, 
     error: '',
     addBookmark: function(bookmark) {
       this.list.push(bookmark);
