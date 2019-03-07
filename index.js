@@ -5,8 +5,9 @@
 //MARK UP FUNCTIONS
 //=================
 const BookmarkList = (function () {
-  function generateMainPageHTML(){ 
-    const bookmarks = STORE.list.map(bookmark => 
+  function generateMainPageHTML(list){ 
+    console.log(list);
+    const bookmarks = list.map(bookmark => 
       `<ul> 
       <li class="js-bookmark-element" data-id="${bookmark.id}">
         <p>${bookmark.title}</p>
@@ -60,15 +61,13 @@ const BookmarkList = (function () {
 
     // Filter
     let filterBookmarks = STORE.list.filter(bookmark => bookmark.rating >= STORE.minimumRating);
+    console.log(filterBookmarks);
     let filteredBookmarks = generateMainPageHTML(filterBookmarks);
     $('#bookmarks-list').html(filteredBookmarks);
 
     if(STORE.error){
       $('.error-message').html(`${STORE.error}<button type="button" id="error-button"> Clear error message</button>`);
     }
-
-    //main page html, without expanded view or add form 
-    $('#bookmarks-list').html(generateMainPageHTML());
 
     //if Add Bookmark Form is false, then have '+' button, else show the form
     if (!STORE.addingFormVisible) {
@@ -87,7 +86,8 @@ const BookmarkList = (function () {
 
       console.log('dropdown menu option clicked!');
       const value = event.currentTarget.value;
-      STORE.minimumRating = value.val();
+      console.log(value);
+      STORE.minimumRating = value;
       renderStore();
     });
   }
