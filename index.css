@@ -16,3 +16,12 @@ input[type="radio"] {
 input[type="radio"]:hover {
     transform: scale(1.5) perspective(1px);
 } 
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+#error-button {
+    margin-left: 15px;
+}

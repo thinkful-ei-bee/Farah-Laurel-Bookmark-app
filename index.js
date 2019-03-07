@@ -29,9 +29,9 @@ const BookmarkList = (function () {
     return `
       <form>
         <p>Add Boommark</p>
-        <input type="add-title" class="js-add-title" placeholder="Title">
-        <input type="add-link" class="js-add-link" placeholder="Link">
-        <input type="add-description" class="js-add-description" placeholder="Description">
+        <input type="add-title" class="js-add-title" placeholder="Title" required>
+        <input type="add-link" class="js-add-link" placeholder="Link" required>
+        <input type="add-description" class="js-add-description" placeholder="Description" required>
         <br>
         
         <label><input class="star-buttons" type="radio" name="radio" value="1"> &#9733<br></label>
@@ -45,12 +45,21 @@ const BookmarkList = (function () {
       </form>`;
   }
 
+  
 
   //================
   //RENDER FUNCTIONS
   //================
   //is for displaying main page
   function renderStore(){
+    // if there is an error message, remove when page renders 
+    $('.error-message').empty();
+
+    if(STORE.error){
+      $('.error-message').html(`${STORE.error}<button type="button" id="error-button"> Clear error message</button>`);
+    }
+
+    //main page html, without expanded view or add form 
     $('#bookmarks-list').html(generateMainPageHTML());
 
     //if Add Bookmark Form is false, then have '+' button, else show the form
@@ -59,12 +68,12 @@ const BookmarkList = (function () {
     } else {
       $('.add-bookmark').html(generateAddBookmarkHTML());
     }
-
-    if(STORE.error){
-      $('.error-message').html(`${STORE.error}<button type="button" id="error-button"> Clear error message</button>`);
-    }
   }
 
+  function addErrorToStoreAndRender(error){
+    STORE.error = error;
+    BookmarkList.renderStore();
+  }
   //===============
   //EVENT LISTENERS
   //===============
@@ -119,11 +128,13 @@ const BookmarkList = (function () {
       api.createBookmarks(newBookmarkTitle, newBookMarkDescription, newBookmarLink, newBookMarkRatingValue)
         .then(res => res.json())
         .then((data) =>  {
-          console.log(data);
           STORE.addBookmark(data);
           STORE.addingFormVisible = !STORE.addingFormVisible;
           renderStore();
-        });
+        })
+        .catch(err => {
+          console.log('TEST ERROR from handleAddBookmarkSubmit', err.message);
+          addErrorToStoreAndRender(err.message); });
     });
   }
 
@@ -153,6 +164,14 @@ const BookmarkList = (function () {
     });
   }
 
+  function handleClearError(){
+    $('.error-message').on('click', '#error-button', event => {
+      console.log('clear button clicked');
+      STORE.error = null;
+      renderStore();
+    });
+  }
+
   function bindEventListeners() {
     handleRatingFilter();
     handleExpandedView();
@@ -160,6 +179,8 @@ const BookmarkList = (function () {
     handleAddBookmarkSubmit();
     handleDeleteButtonOne();
     handleCancelButton();
+    handleClearError();
+    addErrorToStoreAndRender();
     renderStore();
   }
 
@@ -170,21 +191,21 @@ const BookmarkList = (function () {
 }());
 
 
-function addDataToStoreAndRender(list){
-  list.forEach((listItem) => STORE.addBookmark(listItem));
-  BookmarkList.renderStore();
-}
+// function addDataToStoreAndRender(list){
+//   list.forEach((listItem) => STORE.addBookmark(listItem));
+//   BookmarkList.renderStore();
+// }
 
-function addErrorToStoreAndRender(error){
-  STORE.error = error;
-  BookmarkList.renderStore();
-}
+// function addErrorToStoreAndRender(error){
+//   STORE.error = error;
+//   BookmarkList.renderStore();
+// }
 
-$(document).ready(function() {
-  BookmarkList.bindEventListeners();
-  BookmarkList.renderStore();
-  api.getBookmarks()
-    .then(data => addDataToStoreAndRender(data))
-    .catch(err => STORE.addErrorToStoreAndRender(err.message));
-});
+// $(document).ready(function() {
+//   BookmarkList.bindEventListeners();
+//   BookmarkList.renderStore();
+//   api.getBookmarks()
+//     .then(data => addDataToStoreAndRender(data))
+//     .catch(err => STORE.addErrorToStoreAndRender(err.message));
+// });
 

@@ -1,5 +1,4 @@
 'use strict';
-/* global $, STORE, BookmarkList */
 
 
 const api = (function () {
@@ -44,7 +43,9 @@ const api = (function () {
     
     const option = {
       method: 'POST',
-      headers: new Headers({ 'Content-Type': 'application/json' }),
+      headers: new Headers({ 
+        'Content-Type': 'application/json' 
+      }),
       body: newBookmark
     };
     return listApiFetch(`${BASE_URL}` + '/bookmarks', option);
@@ -53,7 +54,9 @@ const api = (function () {
   const deleteBookmarks = function(id) {
     const option = {
       method: 'DELETE',
-      headers: new Headers({ 'Content-Type': 'application/json' }) 
+      headers: new Headers({ 
+        'Content-Type': 'application/json' 
+      }) 
     };
     return fetch(`${BASE_URL}` + `/bookmarks/${id}`, option);
   };
@@ -63,7 +66,6 @@ const api = (function () {
     getBookmarks: getBookmarks,
     createBookmarks: createBookmarks,
     deleteBookmarks: deleteBookmarks, 
-    //displayBookmarks: displayBookmarks
   };
     
 }());

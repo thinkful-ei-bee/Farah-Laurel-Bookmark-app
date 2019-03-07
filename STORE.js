@@ -11,7 +11,7 @@ const STORE = (function(){
     error: '',
     addBookmark: function(bookmark) {
       this.list.push(bookmark);
-      BookmarkList.renderStore();
+      //BookmarkList.renderStore();
     },
     deleteBookmark: function(id){
       const deleteBookmarkIndex = this.list.findIndex(item => item.id === id);
@@ -24,3 +24,21 @@ const STORE = (function(){
     ...bookmarkList //take all the properties from bookmark list and add them; destructuring 
   };
 }());
+
+function addDataToStoreAndRender(list){
+  list.forEach((listItem) => STORE.addBookmark(listItem));
+  BookmarkList.renderStore();
+}
+
+function addErrorToStoreAndRender(error){
+  STORE.error = error;
+  BookmarkList.renderStore();
+}
+
+$(document).ready(function() {
+  BookmarkList.bindEventListeners();
+  BookmarkList.renderStore();
+  api.getBookmarks()
+    .then(data => addDataToStoreAndRender(data))
+    .catch(err => STORE.addErrorToStoreAndRender(err.message));
+});
