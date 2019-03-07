@@ -13,7 +13,7 @@ const BookmarkList = (function () {
         <p>${bookmark.rating}</p> 
         
 
-        <div class="js-bookmark-details">
+        <div class="js-bookmark-details" data-id="${bookmark.id}">
         <p>${bookmark.desc}</p>
         <p>${bookmark.url}</p>
 
@@ -25,13 +25,6 @@ const BookmarkList = (function () {
     return bookmarks;
   }
 
-  // function generateExpandedPageHTML(){
-  //   const bookmarks = STORE.list.map(bookmark => 
-  //     `  `);
-  //   return bookmarks;
-  
-  // }
-
   function generateAddBookmarkHTML(){
     return `
       <form>
@@ -40,22 +33,18 @@ const BookmarkList = (function () {
         <input type="add-link" class="js-add-link" placeholder="Link">
         <input type="add-description" class="js-add-description" placeholder="Description">
         <br>
-        <div class="star-buttons">
-        <input type="radio" name="radio"> 1 Star<br>
-        <input type="radio" name="radio"> 2 Star<br>
-        <input type="radio" name="radio"> 3 Star<br>
-        <input type="radio" name="radio"> 4 Star<br>
-        <input type="radio" name="radio"> 5 Star<br>
-        </div>
+        
+        <label><input class="star-buttons" type="radio" name="radio" value="1"> &#9733<br></label>
+        <label><input class="star-buttons" type="radio" name="radio" value="2"> &#9733 &#9733<br></label>
+        <label><input class="star-buttons" type="radio" name="radio" value="3"> &#9733 &#9733 &#9733<br></label>
+        <label><input class="star-buttons" type="radio" name="radio" value="4"> &#9733 &#9733 &#9733 &#9733<br></label>
+        <label><input class="star-buttons" type="radio" name="radio" value="5"> &#9733 &#9733 &#9733 &#9733 &#9733<br></label>
+        
         <button type="submit" id="js-add-bookmark-button">Add Bookmark</button>
+        <button type="submit" id="js-cancel-bookmark-button">Cancel</button>
       </form>`;
   }
 
-  function getBookmarkFromElement(bookmark){
-    $(bookmark)
-      .closest('.js-bookmark-element')
-      .data('bookmarkId');
-  }
 
   //================
   //RENDER FUNCTIONS
@@ -71,33 +60,35 @@ const BookmarkList = (function () {
       $('.add-bookmark').html(generateAddBookmarkHTML());
     }
 
-    // if (!STORE.list[5]) {
-    //   console.log(STORE.list[0]);
-    //   $('#expanded-bookmark').html(generateExpandedPageHTML());
-    // }
+    if(STORE.error){
+      $('.error-message').html(`${STORE.error}<button type="button" id="error-button"> Clear error message</button>`);
+    }
   }
-
-  //   if (STORE.minimumStarRating) {
-  //     $('container').html()
-  // }
-
-  // displaying expanded html unless item is not clicked
-  // if (STORE.bookmarkList.list[5]) {
-  //   $('container').html(generateExpandedPageHTML());
-  // } else {
-  //   $('container').html(generateMainPageHTML());
-  // }
 
   //===============
   //EVENT LISTENERS
   //===============
+  function handleRatingFilter(){
+    $('.filter-menu').on('change', '#dropdown', event => {
+      event.preventDefault();
+
+      console.log('dropdown menu option clicked!');
+      const value = event.currentTarget.value;
+     
+      const bookmarks = STORE.list.filter(bookmark => bookmark.rating >= value);
+      renderStore();
+    });
+  }
   function handleExpandedView(){
     // when user clicks on bookmark
     $('#bookmarks-list').on('click', '.js-bookmark-element', function (event) {
       event.preventDefault();
 
       console.log('Bookmark click worked!');
-      $('.js-bookmark-details').toggle().attr('data-id');
+      const element = $(event.currentTarget);
+      const id = element.data('id');
+
+      $(`.js-bookmark-details[data-id="${id}"]`).toggle();
     });
   }
 
@@ -123,9 +114,9 @@ const BookmarkList = (function () {
       $('.js-add-description').val('');
       const newBookmarLink = $('.js-add-link').val();
       $('.js-add-link').val('');
-      //const newBookMarkRating =
+      const newBookMarkRatingValue = $('.star-buttons:checked').val();
 
-      api.createBookmarks(newBookmarkTitle, newBookMarkDescription, newBookmarLink)
+      api.createBookmarks(newBookmarkTitle, newBookMarkDescription, newBookmarLink, newBookMarkRatingValue)
         .then(res => res.json())
         .then((data) =>  {
           console.log(data);
@@ -151,25 +142,19 @@ const BookmarkList = (function () {
         });
     });
   }
-
-
-  // function handleSubmitButton(){
-  //   // submits edit
-  // }
-
-  // function handleGoBackButton(){
-  //   // cancel edit action
-  // }
-
   
   function handleCancelButton(){
     // cancel delete action
+    $('.add-bookmark').on('click', '#js-cancel-bookmark-button', event => {
+      event.preventDefault();
+      console.log('Cancel  buttonclicked!');
+      STORE.addingFormVisible = !STORE.addingFormVisible;
+      renderStore();
+    });
   }
 
- 
- 
-  
   function bindEventListeners() {
+    handleRatingFilter();
     handleExpandedView();
     handleAddButton();
     handleAddBookmarkSubmit();
@@ -181,10 +166,7 @@ const BookmarkList = (function () {
   return {
     renderStore: renderStore,
     bindEventListeners: bindEventListeners,
-    //addDataToStoreAndRender: addDataToStoreAndRender
   };
-
-
 }());
 
 
@@ -193,12 +175,16 @@ function addDataToStoreAndRender(list){
   BookmarkList.renderStore();
 }
 
+function addErrorToStoreAndRender(error){
+  STORE.error = error;
+  BookmarkList.renderStore();
+}
 
 $(document).ready(function() {
   BookmarkList.bindEventListeners();
   BookmarkList.renderStore();
   api.getBookmarks()
-    .then(res => res.json())
-    .then(data => addDataToStoreAndRender(data));
+    .then(data => addDataToStoreAndRender(data))
+    .catch(err => STORE.addErrorToStoreAndRender(err.message));
 });
 

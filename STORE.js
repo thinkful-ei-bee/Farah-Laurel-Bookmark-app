@@ -4,11 +4,11 @@
 const STORE = (function(){
   const bookmarkList = {
     list: [
-      //{id: '', title: '', rating: 0, description: '', link: '', expanded: false}
+      //{id, title, rating: 0, description, link, expanded: false}
     ],
     addingFormVisible: false, 
     minimumStarRating: 1, 
-    error: null,
+    error: '',
     addBookmark: function(bookmark) {
       this.list.push(bookmark);
       BookmarkList.renderStore();

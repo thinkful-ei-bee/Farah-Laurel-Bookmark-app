@@ -6,8 +6,13 @@ li {
     list-style: none;
 }
 input[type="radio"] {
-    display:none;
+  visibility: hidden;
+ 
 }
-input[type="radio"]::before {
+.star-buttons::before {
     content: "\2606";
 }
+
+input[type="radio"]:hover {
+    transform: scale(1.5) perspective(1px);
+} 
