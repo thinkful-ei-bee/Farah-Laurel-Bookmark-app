@@ -12,15 +12,17 @@ const BookmarkList = (function () {
       <li class="js-bookmark-element" data-id="${bookmark.id}">
         <p>${bookmark.title}</p>
         <p>${bookmark.rating}/5</p> 
-        
 
         <div class="js-bookmark-details" data-id="${bookmark.id}">
         <p>${bookmark.desc}</p>
-        <p>${bookmark.url}</p>
+        <p><a href="${bookmark.url}">${bookmark.url}</a></p>
 
           <div class="js-detail-buttons">
             <button class="js-delete-button" type="button">Delete</button>
           </div>
+        </div>
+        
+        <button class="js-show-more-button" type="button">Show More</button>
           </li>
           </ul> `);
     return bookmarks;
@@ -29,7 +31,7 @@ const BookmarkList = (function () {
   function generateAddBookmarkHTML(){
     return `
       <form>
-        <p>Add Boommark</p>
+        <label class="add-bookmark-label" for="add-bookmark">Add Boommark:</label>
         <input type="add-title" class="js-add-title" placeholder="Title" required>
         <input type="add-link" class="js-add-link" placeholder="Link" required>
         <input type="add-description" class="js-add-description" placeholder="Description">
@@ -91,6 +93,7 @@ const BookmarkList = (function () {
       renderStore();
     });
   }
+
   function handleExpandedView(){
     // when user clicks on bookmark
     $('#bookmarks-list').on('click', '.js-bookmark-element', function (event) {

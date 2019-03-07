@@ -43,9 +43,17 @@ ul{
   padding-left: 20px;
 }
 
-label {
+.star-buttons label {
   color: grey;
 }
+
+.add-bookmark-label{
+  margin-right: 10px;
+}
+
+.js-add-title, .js-add-link{
+  margin-right: 10px;
+} 
 
 label:hover {
   cursor: pointer; 
