@@ -1,13 +1,13 @@
-#Bookmarks App
+# Bookmarks App
 
-#Students:
+# Students:
     Farah Gustafson
     Laurel Butler 
 
-#Deployed URL: 
+# Deployed URL: 
 
-#Description:
+# Description:
     This app allows you to save your favorite websites as bookmarks. 
 
-#Technical stack:
+# Technical stack:
     JavaScript, HTML, CSS
