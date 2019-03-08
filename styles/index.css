@@ -1,0 +1,157 @@
+#container {
+    display: flex;
+    flex-direction: column;
+}
+
+body{
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+  color: #49494b;
+  background: #8e8e90;
+}
+
+h1 {
+  padding-left: 20px;
+  font-size: 50px;
+}
+
+.filter-menu{
+  padding-left: 30px;
+}
+
+#dropdown{
+  background-color: #bd8c7d;
+  box-shadow: 0px 0px 9px 4px #bd8c7d;
+  border: none;
+}
+
+.js-bookmark-details{
+  display: none;
+}
+
+li{
+    list-style: none;
+}
+
+li p {
+  margin-left: 10px;
+}
+
+#bookmarks-list p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#bookmarks-list .js-bookmark-element{
+  margin-top: 10px;
+  width: 400px;
+}
+
+#bookmarks-list .js-bookmark-element:hover{
+  box-shadow: 0px 0px 9px 4px #d1bfa7;
+  background: #d1bfa7;
+  animation: glow 1.5s linear infinite alternate;
+}
+
+#bookmarks-list .js-bookmark-element p{
+  display: inline;
+}
+
+#bookmarks-list .js-bookmark-details p{
+  font-size: 15px;
+  font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+  color: #49494b;
+  float: right;
+  margin-right: 10px;
+}
+
+.js-delete-button{
+  color: #49494b;
+  background: none;
+  border: none;
+  margin-left: 3px;
+}
+
+.js-delete-button:hover{
+  cursor: pointer;
+}
+
+ul{
+  padding-left: 20px;
+}
+
+.star-buttons label {
+  color: grey;
+}
+
+.star-buttons label:hover {
+  color: grey;
+  color: #d1bfa7;
+}
+
+.add-bookmark-label{
+  margin-right: 10px;
+}
+
+.js-add-title, .js-add-link{
+  margin-right: 10px;
+} 
+
+label:hover {
+  cursor: pointer; 
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"]:checked + span {
+  color: #d1bfa7;
+}
+
+.error-message {
+    color: red;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 30px;
+}
+
+#error-button {
+    margin-left: 15px;
+}
+
+#js-plus-button{
+  font-size: 25px;
+  border: none;
+  background: none;
+  padding-left: 1px;
+}
+
+#js-plus-button:hover{
+  transform: scale(1.1);
+  color: #d1bfa7;
+}
+
+.add-bookmark {
+  padding-left: 30px;
+}
+
+form input{
+  border: 2px solid #dadada;
+  border-radius: 5px;
+  height: 15px;
+}
+
+form input:focus{
+  outline: none;
+  border-color: #d1bfa7;
+  box-shadow: 0 0 10px #d1bfa7;
+}
+
+.star-buttons button{
+  cursor: pointer;
+}
